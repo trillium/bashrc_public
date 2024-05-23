@@ -184,7 +184,7 @@ done
 clear
 
 # Loop over array and print the names of the loaded files
-for file in "${loaded_files[@]}"
+for file in "${loaded_files_basename[@]}"
 do
   echo "$file"
 done

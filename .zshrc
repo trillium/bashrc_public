@@ -59,7 +59,6 @@ which code  >/dev/null 2>&1 && export EDITOR='code -g --wait' && alias c='code -
 # alias "yarn insatll"='install'
 
 # alias profile='code  ~/.bash_profile' ## unneeded
-alias edit='code /Users/trilliumsmith/bashrc_dir/.zshrc'
 alias zshrc='code /Users/trilliumsmith/bashrc_dir/.zshrc'
 alias antigenrc='code ~/.antigenrc'
 
@@ -107,6 +106,9 @@ PATH=~/.console-ninja/.bin:$PATH
 # Subfile loader
 declare -a loaded_files_basename
 declare -a loaded_files
+
+# Add in this .zshrc filepath
+loaded_files+=("$0")
 
 for file in ~/bashrc_dir/private/*.sh
 do

@@ -54,39 +54,6 @@ alias ya='yarn add'
 
 # git config --global alias.pr '!f() { if [ $# -lt 1 ]; then echo "Usage: git pr <id> [<remote>]  # assuming <remote>[=origin] is on GitHub"; else git checkout -q "$(git rev-parse --verify HEAD)" && git fetch -fv "${2:-origin}" pull/"$1"/head:pr/"$1" && git checkout pr/"$1"; fi; }; f'
 
-# test bash rename git command
-function do_find() {
-  for file in *.js                                                 
-  do
-          if [[ "${file}" == *"test"* ]]
-          then
-            echo ❌ "${file}" "${file%.js}.jsx"
-            continue
-          fi
-          # git mv "$file" "${file%.js}.jsx"
-          echo ✅ "${file}" ' --> ' "${file%.js}.jsx"
-
-  done
-  # echo "did a rename from .js to .jsx"
-}
-
-function do_replace() {
-  for file in *.js                                                 
-  do
-          if [[ "${file}" == *"test"* ]]
-          then
-            echo ❌ "${file}" "${file%.js}.jsx"
-            continue
-          fi
-          git mv "$file" "${file%.js}.jsx"
-          echo ✅ "${file}" ' --> ' "${file%.js}.jsx"
-
-  done
-  # echo "did a rename from .js to .jsx"
-}
-
-export -f do_replace
-
 # --- editor
 alias c='code -g'
 

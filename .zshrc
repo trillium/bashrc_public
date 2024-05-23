@@ -341,3 +341,30 @@ case ":$PATH:" in
 esac
 # pnpm end
 PATH=~/.console-ninja/.bin:$PATH
+
+
+declare -a loaded_files_basename
+declare -a loaded_files
+
+for file in ~/bashrc_dir/private/*.sh
+do
+  source "$file"
+  loaded_files_basename+=("Loaded Private: $(basename $file)")
+  loaded_files+=$file
+done
+
+for file in ~/bashrc_dir/public/*.sh
+do
+  source "$file"
+  loaded_files_basename+=("Loaded Public : $(basename $file)")
+  loaded_files+=$file
+done
+
+# Clear function definition bloat
+clear
+
+# Loop over array and print the names of the loaded files
+for file in "${loaded_files[@]}"
+do
+  echo "$file"
+done

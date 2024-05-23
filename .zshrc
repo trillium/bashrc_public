@@ -87,20 +87,6 @@ function do_replace() {
 
 export -f do_replace
 
-function hello() {
-  arg_count=$#
-  
-  for arg in "$@"; do
-    if [[ "$arg" == *,* ]]; then
-      echo "Argument '$arg' contains a comma"
-    fi
-  done
-
-  echo "Hello, $@! ($arg_count arguments)"
-}
-
-export -f hello
-
 # --- editor
 alias c='code -g'
 

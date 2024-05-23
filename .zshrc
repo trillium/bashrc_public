@@ -40,13 +40,6 @@ alias py="python"
 alias reload="source ~/bashrc_dir/.zshrc"
 alias pbclip="pbcopy"
 ##
-##
-# alias gs='git status'
-# alias gpuo='git push -u origin'
-# alias gcm='git commit -m'
-# alias gd='git diff'
-# alias gl='git log'
-# alias ga='git add'
 
 alias yarm='yarn'
 alias ydev='yarn dev'

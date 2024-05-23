@@ -104,6 +104,7 @@ esac
 PATH=~/.console-ninja/.bin:$PATH
 
 
+# Subfile loader
 declare -a loaded_files_basename
 declare -a loaded_files
 

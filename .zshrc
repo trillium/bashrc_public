@@ -147,9 +147,6 @@ source /opt/homebrew/share/antigen/antigen.zsh
 # Load Antigen configurations
 antigen init ~/.antigenrc
 
-##
-echo "Loaded .zshrc"
-
 # Created by `pipx` on 2023-11-20 07:30:03
 export PATH="$PATH:/Users/trilliumsmith/.local/bin"
 

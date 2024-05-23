@@ -148,13 +148,6 @@ export -f hello
 # --- editor
 alias c='code -g'
 
-alias ..='cd .. && ls'
-alias ...='.. && .. && ls'
-alias ....='... && .. && ls'
-alias .....='.... && .. && ls'
-# alias cd='  f() { cd $@; ls };f'
-alias dc='  f() { cd $@; ls };f'
-
 # --- editor
 which pico  >/dev/null 2>&1 && export EDITOR='pico'
 which nano  >/dev/null 2>&1 && export EDITOR='nano'

@@ -80,9 +80,6 @@ function M() {
   fi
 }
 
-export -f m
-export -f M
-
 function state() {
   # Capture the output of the actions.speech.enabled() command
   talon_state=$(echo "actions.speech.enabled()" | $TALON_REPL_PATH | tail -n 1)
@@ -94,3 +91,6 @@ function state() {
     echo "Talon is asleep"
   fi
 }
+
+export -f m
+export -f M

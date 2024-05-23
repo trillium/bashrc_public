@@ -3,6 +3,15 @@ TALON_REPL_PATH=${TALON_REPL_PATH}
 source ~/bashrc_dir/private/path.sh
 
 function m() {
+  # Check if Talon is asleep
+  talon_state=$(state)
+  if [[ "$talon_state" == "Talon is asleep" ]]; then
+    # Wake up Talon
+    echo "mimic(\"talon wake\")"| $TALON_REPL_PATH > /dev/null
+    # Pipe a short sleep between each command
+    echo "actions.sleep(.05)"| $TALON_REPL_PATH > /dev/null
+  fi
+
   # begin an empty command
   command=""
   # loop over all arguments passed to the function
@@ -30,9 +39,26 @@ function m() {
   done
   # Run the last saved command
   echo "mimic(\"${command/ /}\")"| $TALON_REPL_PATH > /dev/null
+
+  # If Talon was initially asleep, put it back to sleep
+  if [[ "$talon_state" == "Talon is asleep" ]]; then
+    # Pipe a short sleep between each command
+    echo "actions.sleep(.05)"| $TALON_REPL_PATH > /dev/null
+    # Put Talon to sleep
+    echo "mimic(\"talon sleep\")"| $TALON_REPL_PATH > /dev/null
+  fi
 }
 
 function M() {
+  # Check if Talon is asleep
+  talon_state=$(state)
+  if [[ "$talon_state" == "Talon is asleep" ]]; then
+    # Wake up Talon
+    echo "mimic(\"talon wake\")"| $TALON_REPL_PATH > /dev/null
+    # Pipe a short sleep between each command
+    echo "actions.sleep(.05)"| $TALON_REPL_PATH > /dev/null
+  fi
+
   # Change to the last used window
   echo "mimic(\"command tab\")"| $TALON_REPL_PATH > /dev/null
   # Send a short sleep
@@ -44,7 +70,27 @@ function M() {
   # Restore back the original used window
   # (as long as no other window changing commands are used)
   echo "mimic(\"command tab\")"| $TALON_REPL_PATH > /dev/null
+
+  # If Talon was initially asleep, put it back to sleep
+  if [[ "$talon_state" == "Talon is asleep" ]]; then
+    # Pipe a short sleep between each command
+    echo "actions.sleep(.05)"| $TALON_REPL_PATH > /dev/null
+    # Put Talon to sleep
+    echo "mimic(\"talon sleep\")"| $TALON_REPL_PATH > /dev/null
+  fi
 }
 
 export -f m
 export -f M
+
+function state() {
+  # Capture the output of the actions.speech.enabled() command
+  talon_state=$(echo "actions.speech.enabled()" | $TALON_REPL_PATH | tail -n 1)
+
+  # Check if Talon is awake
+  if [[ "$talon_state" == "True" ]]; then
+    echo "Talon is awake"
+  else
+    echo "Talon is asleep"
+  fi
+}

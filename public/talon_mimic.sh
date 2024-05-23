@@ -1,3 +1,7 @@
+TALON_REPL_PATH=${TALON_REPL_PATH}
+
+source ~/bashrc_dir/private/path.sh
+
 function m() {
   # begin an empty command
   command=""

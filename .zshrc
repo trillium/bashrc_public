@@ -52,17 +52,6 @@ alias yarm='yarn'
 alias ydev='yarn dev'
 alias ya='yarn add'
 
-alias ga='git add'
-
-# --- Additional git command
-git config --global alias.pr '!f() { if [ $# -lt 1 ]; then
-  echo "Usage: git pr <id> [<remote>] # assuming <remote>[=origin] is on GitHub";
-  echo "    eg: git pr 1340 upstream";
-  else git checkout -q "$(git rev-parse --verify HEAD)" &&
-  git fetch -fv "${2:-origin}" pull/"$1"/head:pr/"$1" &&
-  git checkout pr/"$1";
-  fi; }; f'
-
 # git config --global alias.pr '!f() { if [ $# -lt 1 ]; then echo "Usage: git pr <id> [<remote>]  # assuming <remote>[=origin] is on GitHub"; else git checkout -q "$(git rev-parse --verify HEAD)" && git fetch -fv "${2:-origin}" pull/"$1"/head:pr/"$1" && git checkout pr/"$1"; fi; }; f'
 
 # test bash rename git command

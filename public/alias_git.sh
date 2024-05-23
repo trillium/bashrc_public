@@ -1,4 +1,5 @@
-alias ga='   f() { git add $@; git --no-pager status --short; };f'
+# alias ga='   f() { git add $@; git --no-pager status --short; };f'
+alias ga='git add'
 alias gaa='  git add --all; git --no-pager status --short'
 alias gb='   git branch'
 alias gc='   f() { git commit -m "$*"; };f'
@@ -34,3 +35,12 @@ alias gof='  f() { git fetch --prune $@; git gc --auto; };f'
 alias clean='f() { find . -type d \( -name .git -o -name node_modules -o -name .next \) -prune -o -type f -name "*.orig" -print | xargs -I % rm %; git gc --aggressive; };f'
 
 alias gyolo='ga . && git commit --amend --no-edit && git push --force'
+
+# --- Additional git command
+git config --global alias.pr '!f() { if [ $# -lt 1 ]; then
+  echo "Usage: git pr <id> [<remote>] # assuming <remote>[=origin] is on GitHub";
+  echo "    eg: git pr 1340 upstream";
+  else git checkout -q "$(git rev-parse --verify HEAD)" &&
+  git fetch -fv "${2:-origin}" pull/"$1"/head:pr/"$1" &&
+  git checkout pr/"$1";
+  fi; }; f'

@@ -4,11 +4,11 @@ source ~/bashrc_dir/private/path.sh
 
 function m() {
   # Check if Talon is asleep
-  state
+  get_state
   # Capture output of last command with $? (either 0 or 1)
   # Assign talon_state based on $?
   talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
-  state $talon_state start
+  get_state $talon_state start
 
   # begin an empty command
   command=""
@@ -40,16 +40,16 @@ function m() {
   mimic "${command/ /}"
 
   # If Talon was initially asleep, put it back to sleep
-  state $talon_state end
+  get_state $talon_state end
 }
 
 function M() {
   # Check if Talon is asleep
-  state
+  get_state
   # Capture output of last command with $? (either 0 or 1)
   # Assign talon_state based on $?
   talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
-  state $talon_state start
+  get_state $talon_state start
 
   # Change to the last used window
   mimic "command tab"
@@ -63,10 +63,10 @@ function M() {
   # (as long as no other window changing commands are used)
   mimic "command tab"
 
-  state $talon_state end
+  get_state $talon_state end
 }
 
-function state() {
+function get_state() {
   # Capture the output of the actions.speech.enabled() command
   talon_state=$(echo "actions.speech.enabled()" | $TALON_REPL_PATH | tail -n 1)
 

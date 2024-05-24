@@ -19,15 +19,16 @@ function m() {
       # remove , or . from the argument
       word=$(echo "${word}" | tr -d ',.')
       # add the current argument to the command
+      # This initially adds a space character to the front of the command as well
       command="$command $word"
       # Remove leading whitespace
       command="${command#"${command%%[![:space:]]*}"}"
       # Remove trailing whitespace
       command="${command%"${command##*[![:space:]]}"}"
       # Pipe the command to the talon repl running mimic
-      echo "mimic(\"${command}\")"| $TALON_REPL_PATH > /dev/null
+      mimic "${command/ /}"
       # Pipe a short sleep between each command
-      echo "actions.sleep(.05)"| $TALON_REPL_PATH > /dev/null
+      repl_func "actions.sleep(.05)"
       command="" 
     # if no , or . are found in the argument
     # append the argument to the command
@@ -36,7 +37,7 @@ function m() {
     fi
   done
   # Run the last saved command
-  echo "mimic(\"${command/ /}\")"| $TALON_REPL_PATH > /dev/null
+  mimic "${command/ /}"
 
   # If Talon was initially asleep, put it back to sleep
   state $talon_state end
@@ -51,16 +52,16 @@ function M() {
   state $talon_state start
 
   # Change to the last used window
-  echo "mimic(\"command tab\")"| $TALON_REPL_PATH > /dev/null
+  mimic "command tab"
   # Send a short sleep
-  echo "actions.sleep(.05)"| $TALON_REPL_PATH > /dev/null
+  repl_func "actions.sleep(.05)"
   # Run commands after `M`
   m "$@"
   # Send a short sleep
-  echo "actions.sleep(.05)"| $TALON_REPL_PATH > /dev/null
+  repl_func "actions.sleep(.05)"
   # Restore back the original used window
   # (as long as no other window changing commands are used)
-  echo "mimic(\"command tab\")"| $TALON_REPL_PATH > /dev/null
+  mimic "command tab"
 
   state $talon_state end
 }
@@ -72,11 +73,11 @@ function state() {
   # If the first argument is False, execute the echo command
   if [[ $1 == "False" ]]; then
     if [[ $2 == "start" ]]; then
-    echo "mimic(\"talon wake\")"| $TALON_REPL_PATH > /dev/null
+        mimic "talon wake"
     fi
 
     if [[ $2 == "end" ]]; then
-    echo "mimic(\"talon sleep\")"| $TALON_REPL_PATH > /dev/null
+    mimic "talon sleep"
     fi
   fi
 
@@ -91,10 +92,6 @@ function state() {
 function mimic() {
   echo "mimic(\"$1\")"| $TALON_REPL_PATH > /dev/null
 }
-
-# echo "mimic(\"${command/ /}\")"| $TALON_REPL_PATH > /dev/null
-
-
 
 function repl_func() {
   echo $1 | $TALON_REPL_PATH > /dev/null

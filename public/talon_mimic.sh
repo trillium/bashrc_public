@@ -88,5 +88,17 @@ function state() {
   fi
 }
 
+function mimic() {
+  echo "mimic(\"$1\")"| $TALON_REPL_PATH > /dev/null
+}
+
+# echo "mimic(\"${command/ /}\")"| $TALON_REPL_PATH > /dev/null
+
+
+
+function repl_func() {
+  echo $1 | $TALON_REPL_PATH > /dev/null
+}
+
 export -f m
 export -f M

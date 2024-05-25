@@ -106,6 +106,9 @@ PATH=~/.console-ninja/.bin:$PATH
 # Subfile loader
 declare -a loaded_files_basename
 declare -a loaded_files
+# Clear the arrays incase reload was called (makes duplicates)
+loaded_files_basename=()
+loaded_files=()
 
 # Add in this .zshrc filepath
 loaded_files+=("$0")

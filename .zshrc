@@ -54,10 +54,6 @@ which nano  >/dev/null 2>&1 && export EDITOR='nano'
 which code  >/dev/null 2>&1 && export EDITOR='code -g --wait' && alias c='code -g'
 # which dircolors  >/dev/null 2>&1 && dircolors --bourne-shells
 
-# -- typos
-# doesn't work
-# alias "yarn insatll"='install'
-
 # alias profile='code  ~/.bash_profile' ## unneeded
 alias zshrc='code /Users/trilliumsmith/bashrc_dir/.zshrc'
 alias antigenrc='code ~/.antigenrc'

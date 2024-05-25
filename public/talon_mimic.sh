@@ -7,7 +7,7 @@ function m() {
   get_state
   # Capture output of last command with $? (either 0 or 1)
   # Assign talon_state based on $?
-  talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
+  local talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
   get_state $talon_state start
 
   # begin an empty command
@@ -48,7 +48,7 @@ function M() {
   get_state
   # Capture output of last command with $? (either 0 or 1)
   # Assign talon_state based on $?
-  talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
+  local talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
   get_state $talon_state start
 
   # Change to the last used window

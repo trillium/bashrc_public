@@ -2,14 +2,7 @@ TALON_REPL_PATH=${TALON_REPL_PATH}
 
 source ~/bashrc_dir/private/path.sh
 
-function m() {
-  # Check if Talon is asleep
-  get_state
-  # Capture output of last command with $? (either 0 or 1)
-  # Assign talon_state based on $?
-  local talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
-  get_state $talon_state start
-
+function mimic_arg_loop() {
   # begin an empty command
   command=""
   # loop over all arguments passed to the function
@@ -25,8 +18,8 @@ function m() {
       command="${command#"${command%%[![:space:]]*}"}"
       # Remove trailing whitespace
       command="${command%"${command##*[![:space:]]}"}"
-      # Pipe the command to the talon repl running mimic
-      repl_mimic "${command/ /}"
+      # Pipe the command to the talon repl running mimicM
+      repl_mimic "${command}"
       # Pipe a short sleep between each command
       repl_func "actions.sleep(.05)"
       command="" 
@@ -38,6 +31,17 @@ function m() {
   done
   # Run the last saved command
   repl_mimic "${command/ /}"
+}
+
+function m() {
+  # Check if Talon is asleep
+  get_state
+  # Capture output of last command with $? (either 0 or 1)
+  # Assign talon_state based on $?
+  local talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
+  get_state $talon_state start
+
+  mimic_arg_loop $@
 
   # If Talon was initially asleep, put it back to sleep
   get_state $talon_state end
@@ -50,30 +54,23 @@ function M() {
   # Assign talon_state based on $?
   local talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
   get_state $talon_state start
-  suppress_get_state=True
 
   # Change to the last used window
   repl_mimic "command tab"
   # Send a short sleep
   repl_func "actions.sleep(.05)"
   # Run commands after `M`
-  m "$@"
+  mimic_arg_loop "$@"
   # Send a short sleep
   repl_func "actions.sleep(.05)"
   # Restore back the original used window
   # (as long as no other window changing commands are used)
   repl_mimic "command tab"
 
-  suppress_get_state=False
   get_state $talon_state end
 }
 
 function get_state() {
-  # Supress func at request of M function
-  if [ "$suppress_get_state" = True ]; then
-    return
-  fi
-
   # Capture the output of the actions.speech.enabled() command
   talon_state=$(echo "actions.speech.enabled()" | $TALON_REPL_PATH | tail -n 1)
 

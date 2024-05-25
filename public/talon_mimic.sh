@@ -96,12 +96,12 @@ function get_state() {
   fi
 }
 
-function mimic() {
-  echo "mimic(\"$1\")"| $TALON_REPL_PATH > /dev/null
-}
-
 function repl_func() {
   echo $1 | $TALON_REPL_PATH > /dev/null
+}
+
+function mimic() {
+  repl_func "mimic(\"$1\")"
 }
 
 export -f m

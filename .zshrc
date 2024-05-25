@@ -113,7 +113,7 @@ do
   loaded_files+=$file
 done
 
-# Clear function definition bloat
+# Clear function definition bloat from export -f
 clear
 
 # Loop over array and print the names of the loaded files

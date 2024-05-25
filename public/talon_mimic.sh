@@ -1,7 +1,5 @@
 TALON_REPL_PATH=${TALON_REPL_PATH}
 
-source ~/bashrc_dir/private/path.sh
-
 function mimic_arg_loop() {
   # begin an empty command
   command=""

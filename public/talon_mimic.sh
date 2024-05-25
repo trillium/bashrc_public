@@ -26,7 +26,7 @@ function m() {
       # Remove trailing whitespace
       command="${command%"${command##*[![:space:]]}"}"
       # Pipe the command to the talon repl running mimic
-      mimic "${command/ /}"
+      repl_mimic "${command/ /}"
       # Pipe a short sleep between each command
       repl_func "actions.sleep(.05)"
       command="" 
@@ -37,7 +37,7 @@ function m() {
     fi
   done
   # Run the last saved command
-  mimic "${command/ /}"
+  repl_mimic "${command/ /}"
 
   # If Talon was initially asleep, put it back to sleep
   get_state $talon_state end
@@ -53,7 +53,7 @@ function M() {
   suppress_get_state=True
 
   # Change to the last used window
-  mimic "command tab"
+  repl_mimic "command tab"
   # Send a short sleep
   repl_func "actions.sleep(.05)"
   # Run commands after `M`
@@ -62,7 +62,7 @@ function M() {
   repl_func "actions.sleep(.05)"
   # Restore back the original used window
   # (as long as no other window changing commands are used)
-  mimic "command tab"
+  repl_mimic "command tab"
 
   suppress_get_state=False
   get_state $talon_state end
@@ -80,11 +80,11 @@ function get_state() {
   # If the first argument is False, execute the echo command
   if [[ $1 == "False" ]]; then
     if [[ $2 == "start" ]]; then
-        mimic "talon wake"
+        repl_mimic "talon wake"
     fi
 
     if [[ $2 == "end" ]]; then
-    mimic "talon sleep"
+    repl_mimic "talon sleep"
     fi
   fi
 
@@ -100,7 +100,7 @@ function repl_func() {
   echo $1 | $TALON_REPL_PATH > /dev/null
 }
 
-function mimic() {
+function repl_mimic() {
   repl_func "mimic(\"$1\")"
 }
 

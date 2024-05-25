@@ -50,6 +50,7 @@ function M() {
   # Assign talon_state based on $?
   local talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
   get_state $talon_state start
+  suppress_get_state=True
 
   # Change to the last used window
   mimic "command tab"
@@ -63,10 +64,16 @@ function M() {
   # (as long as no other window changing commands are used)
   mimic "command tab"
 
+  suppress_get_state=False
   get_state $talon_state end
 }
 
 function get_state() {
+  # Supress func at request of M function
+  if [ "$suppress_get_state" = True ]; then
+    return
+  fi
+
   # Capture the output of the actions.speech.enabled() command
   talon_state=$(echo "actions.speech.enabled()" | $TALON_REPL_PATH | tail -n 1)
 

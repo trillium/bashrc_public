@@ -121,3 +121,7 @@ for file in "${loaded_files_basename[@]}"
 do
   echo "$file"
 done
+
+echo
+echo "Termianl read in:"
+echo | pwd

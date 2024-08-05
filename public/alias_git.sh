@@ -44,3 +44,11 @@ git config --global alias.pr '!f() { if [ $# -lt 1 ]; then
   git fetch -fv "${2:-origin}" pull/"$1"/head:pr/"$1" &&
   git checkout pr/"$1";
   fi; }; f'
+
+gitpru() {
+  if [ -z "$1" ]; then
+    echo "Usage: gitpru NUMBER"
+  else
+    git pr "$1" upstream
+  fi
+}

@@ -9,4 +9,7 @@ alias paste="pbpaste"
 
 alias yarm='yarn'
 alias ydev='yarn dev'
+alias pnpmd='pnpm dev'
+alias pdev='pnpm dev'
 alias ya='yarn add'
+alias 'yarn install'='yarn add'

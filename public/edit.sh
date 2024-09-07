@@ -1,3 +1,5 @@
+BASHPROFILE_DIR=${BASHPROFILE_DIR}
+
 function edit() {
     file_array=("${(@s/ /)loaded_files}")
     # Split the array into two arrays for the two columns
@@ -16,7 +18,9 @@ function edit() {
             fi
             echo
         done
-        printf " %1s) Quit\n" "q"
+        # printf " %1s) Quit" "q"
+printf " %-1s) %-30s" "q" "Quit"
+printf " %-1s) %-30s\n" "w" "Open Workspace"q
         echo "Please select a file:"
 
         echo -n "Enter your selection: "
@@ -24,6 +28,10 @@ function edit() {
 
         if [[ $selection == "q" ]]; then
             echo "Exiting..."
+            break
+        elif [[ $selection == "w" ]]; then
+            echo "Opening .bashrc workspace at $BASHPROFILE_DIR"
+            code "$BASHPROFILE_DIR"
             break
         elif [[ $selection -ge 1 ]] && [[ $selection -le ${#file_array[@]} ]]; then
             file=${file_array[$selection]##*/Users/trilliumsmith/bashrc_dir}

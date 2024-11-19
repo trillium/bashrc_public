@@ -1,3 +1,23 @@
+# export PATH="$HOME/.pyenv/shims:$PATH"
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+# export PIPENV_PYTHON="$PYENV_ROOT/shims/python"
+
+# source ~/bashrc_dir/private/path.sh
+
+# # plugin=(
+# #   pyenv
+# # )
+
+# # eval "$(pyenv init -)"
+# # eval "$(pyenv virtualenv-init -)"
+
+# echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+# echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+# echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+
+export HOMEBREW_AUTO_UPDATE_SECS=86400
+
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PIPENV_PYTHON="$PYENV_ROOT/shims/python"

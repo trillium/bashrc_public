@@ -101,3 +101,88 @@ function repl_mimic() {
 
 export -f m
 export -f M
+
+function mimic_arg_loop_nums_to_words() {
+  echo "begin $@"
+  # begin an empty command
+  command=""
+  # loop over all arguments passed to the function
+  for word in "$@"; do
+    echo "next: $word, command: $command"
+    # If , or . are found at the end an argument
+    if [[ "$word" == *, || "$word" == *. ]]; then
+      # remove , or . from the argument
+      word=$(echo "${word}" | tr -d ',.')
+      
+      oldword=$word
+
+      echo "before has_numeric_values"
+      if has_numeric_values $word; then
+        word=$(num_to_word $word)
+      fi 
+      echo "$oldword, $word" 
+
+      # add the current argument to the command
+      # This initially adds a space character to the front of the command as well
+      command="$command $word"
+      # Remove leading whitespace
+      command="${command#"${command%%[![:space:]]*}"}"
+      # Remove trailing whitespace
+      command="${command%"${command##*[![:space:]]}"}"
+      # Pipe the command to the talon repl running mimicM
+      # echo "[$oldword] ${command}"
+      echo "command: [$command}]"
+      repl_mimic "${command}"
+      # Pipe a short sleep between each command
+      repl_func "actions.sleep(.05)"
+      command="" 
+    # if no , or . are found in the argument
+    # append the argument to the command
+    else
+      if has_numeric_values $word; then
+        word=$(num_to_word $word)
+      fi 
+      command="$command $word"
+    fi
+  done
+  # Run the last saved command
+  echo "running command: $command"
+  repl_mimic "${command/ /}"
+}
+
+function nm() {
+  # Check if Talon is asleep
+  get_state
+  # Capture output of last command with $? (either 0 or 1)
+  # Assign talon_state based on $?
+  local talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
+  get_state $talon_state start
+
+  mimic_arg_loop_nums_to_words $@
+
+  # If Talon was initially asleep, put it back to sleep
+  get_state $talon_state end
+}
+
+function NM() {
+  # Check if Talon is asleep
+  get_state
+  # Capture output of last command with $? (either 0 or 1)
+  # Assign talon_state based on $?
+  local talon_state=$(if [ $? -eq 0 ]; then echo "True"; else echo "False"; fi)
+  get_state $talon_state start
+
+  # Change to the last used window
+  repl_mimic "command tab"
+  # Send a short sleep
+  repl_func "actions.sleep(.05)"
+  # Run commands after `M`
+  mimic_arg_loop_nums_to_words "$@"
+  # Send a short sleep
+  repl_func "actions.sleep(.05)"
+  # Restore back the original used window
+  # (as long as no other window changing commands are used)
+  repl_mimic "command tab"
+
+  get_state $talon_state end
+}

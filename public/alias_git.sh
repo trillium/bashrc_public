@@ -7,10 +7,12 @@ alias gca='  git commit --amend -C HEAD'
 alias gcam=' f() { git commit --amend -m "$*"; };f'
 alias gcp='  f() { git cherry-pick --no-commit $@; git --no-pager status --short; };f'
 alias gd='   git difftool --gui; echo "--diff complete."'
+alias gdd='f() { git difftool --gui "$@"; echo "--diff complete."; }; f'
 alias 'gd --staged'='echo "Reminder: Use gds instead"; git difftool --staged --gui'
 alias gds='  git difftool --staged --gui'
 # alias gdc='   git difftool --cached --gui; echo "--diff complete."'
 alias gc='   git commit'
+alias gcan='   git commit --amend --no-edit'
 alias gdn='  git --no-pager diff --name-only'
 alias gm='   git mergetool --gui'
 alias gl='   git log --pretty=summary --use-mailmap'
@@ -44,3 +46,43 @@ git config --global alias.pr '!f() { if [ $# -lt 1 ]; then
   git fetch -fv "${2:-origin}" pull/"$1"/head:pr/"$1" &&
   git checkout pr/"$1";
   fi; }; f'
+
+gitpru() {
+  if [ -z "$1" ]; then
+    echo "Usage: gitpru NUMBER"
+  else
+    git pr "$1" upstream
+  fi
+}
+
+rebase() {
+  # Define color codes
+  GREEN='\033[0;32m'
+  YELLOW='\033[1;33m'
+  NC='\033[0m' # No Color
+
+  # Stash all changes, including untracked files
+  echo -e "${YELLOW}Stashing all changes, including untracked files...${NC}"
+  stashed=$(git stash -u)
+
+  # Get the current branch name
+  # echo -e "${YELLOW}Getting the current branch name...${NC}"
+  current_branch=$(git rev-parse --abbrev-ref HEAD)
+  # echo -e "${GREEN}Current branch: $current_branch${NC}"
+
+  # Use the current branch name in the git merge-base command
+  # echo -e "${YELLOW}Finding the merge base between main and $current_branch...${NC}"
+  merge_base=$(git merge-base main "$current_branch")
+  # echo -e "${GREEN}Merge base commit: $merge_base${NC}"
+
+  # Use the merge base commit hash in the git rebase command
+  echo -e "${YELLOW}Starting interactive rebase from merge base commit{NC}"
+  git rebase -i "$merge_base"
+
+  # Apply the stashed changes
+  if [[ "$stashed" == "No local changes to save" ]]; then
+    echo -e "${YELLOW}Done!${NC}"
+  else
+    echo -e "${YELLOW}You can now run 'git stash pop' to retun stashed values${NC}"
+  fi
+}

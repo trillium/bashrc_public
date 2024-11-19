@@ -13,3 +13,5 @@ alias pnpmd='pnpm dev'
 alias pdev='pnpm dev'
 alias ya='yarn add'
 alias 'yarn install'='yarn add'
+
+alias cdcode='cd ~/code'

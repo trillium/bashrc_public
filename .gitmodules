@@ -1,0 +1,6 @@
+[submodule "commandline-ai-ask"]
+	path = commandline-ai-ask
+	url = https://github.com/trillium/commandline-ai-ask.git
+[submodule "worktree-wrangler"]
+	path = worktree-wrangler
+	url = https://github.com/trillium/worktree-wrangler

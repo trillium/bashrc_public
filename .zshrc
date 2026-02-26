@@ -1,3 +1,7 @@
+# shellcheck disable=SC1090,SC1091,SC2034
+# SC1090/SC1091: shellcheck can't follow dynamic/~ sources (expected in .zshrc)
+# SC2034: plugin/HELPDIR are used by zsh plugins, not directly
+
 # export PATH="$HOME/.pyenv/shims:$PATH"
 # export PYENV_ROOT="$HOME/.pyenv"
 # export PATH="$PYENV_ROOT/bin:$PATH"
@@ -16,44 +20,41 @@
 # echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
 # echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 
+export GOBIN=$HOME/go/bin
+export PATH=$PATH:$GOBIN
+export PATH=$PATH:$HOME/go/bin
+
 export HOMEBREW_AUTO_UPDATE_SECS=86400
+export PATH="/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 export PIPENV_PYTHON="$PYENV_ROOT/shims/python"
 
 source ~/bashrc_dir/private/path.sh
 
-plugin=(
-  pyenv
-)
-
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
-
-# place this after nvm initialization!
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use
-    fi
-  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
+# pyenv — lazy-loaded (saves ~240ms). Full init runs on first use of pyenv/python/pip.
+# __lazy_pyenv uses double-underscore so Claude Code shell snapshots capture it
+# (snapshots filter out single-underscore functions, causing "command not found" errors).
+__lazy_pyenv_done=0
+__lazy_pyenv() {
+  if (( __lazy_pyenv_done )); then
+    return
   fi
+  __lazy_pyenv_done=1
+  unset -f pyenv python python3 pip pip3 2>/dev/null
+  eval "$(command pyenv init -)"
+  eval "$(command pyenv virtualenv-init -)"
 }
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+pyenv()   { __lazy_pyenv; command pyenv "$@"; }
+python()  { __lazy_pyenv; command python "$@"; }
+python3() { __lazy_pyenv; command python3 "$@"; }
+pip()     { __lazy_pyenv; command pip "$@"; }
+pip3()    { __lazy_pyenv; command pip3 "$@"; }
+
+# fnm (fast node manager) — reads .nvmrc, auto-switches on cd
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 # --- editor
 alias c='code -g'
@@ -83,12 +84,17 @@ chruby ruby-3.2.2
 # Create a help alias
 unalias run-help
 autoload run-help
-HELPDIR=$(command brew --prefix)/share/zsh/help
+HELPDIR=/opt/homebrew/share/zsh/help
 alias help=run-help
 
-#thefuck command -- insatlled by brew
-eval $(thefuck --alias FUCK)
-eval $(thefuck --alias fuck)
+# thefuck aliases — auto-regenerates cache when binary is updated
+_thefuck_cache=~/.cache/thefuck-aliases.zsh
+_thefuck_bin=$(command -v thefuck)
+if [[ ! -f "$_thefuck_cache" || "$_thefuck_bin" -nt "$_thefuck_cache" ]]; then
+  thefuck --alias FUCK > "$_thefuck_cache" && thefuck --alias fuck >> "$_thefuck_cache"
+fi
+source "$_thefuck_cache"
+unset _thefuck_cache _thefuck_bin
 
 # Load Antigen
 source /opt/homebrew/share/antigen/antigen.zsh
@@ -109,39 +115,23 @@ esac
 PATH=~/.console-ninja/.bin:$PATH
 
 
-# Subfile loader
-declare -a loaded_files_basename
-declare -a loaded_files
-# Clear the arrays incase reload was called (makes duplicates)
-loaded_files_basename=()
-loaded_files=()
+# --- Private sources ---
+source ~/bashrc_dir/private/codewars.sh
+# NOTE: private/path.sh is already sourced above
 
-# Add in this .zshrc filepath
-loaded_files+=("$0")
-
-for file in ~/bashrc_dir/private/*.sh
-do
-  source "$file"
-  loaded_files_basename+=("Loaded Private: $(basename $file)")
-  loaded_files+=$file
-done
-
-for file in ~/bashrc_dir/public/*.sh
-do
-  source "$file"
-  loaded_files_basename+=("Loaded Public : $(basename $file)")
-  loaded_files+=$file
-done
-
-# Clear function definition bloat from export -f
-clear
-
-# Loop over array and print the names of the loaded files
-for file in "${loaded_files_basename[@]}"
-do
-  echo "$file"
-done
-
-echo
-echo "Termianl read in:"
-echo | pwd
+# --- Public sources ---
+source ~/bashrc_dir/public/alias_general.sh
+source ~/bashrc_dir/public/alias_git.sh
+source ~/bashrc_dir/public/caddy_add.sh
+source ~/bashrc_dir/public/cd.sh
+source ~/bashrc_dir/public/edit.sh
+source ~/bashrc_dir/public/find_and_replace.sh
+source ~/bashrc_dir/public/forever.sh
+source ~/bashrc_dir/public/gclone.sh
+source ~/bashrc_dir/public/git_wrapper.sh
+source ~/bashrc_dir/public/kill_port.sh
+source ~/bashrc_dir/public/note.sh
+source ~/bashrc_dir/public/num_to_word.sh
+source ~/bashrc_dir/public/ralph.sh
+source ~/bashrc_dir/public/talon_mimic.sh
+source ~/bashrc_dir/public/terminal.sh

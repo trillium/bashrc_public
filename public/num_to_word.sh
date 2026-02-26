@@ -31,4 +31,4 @@ function has_numeric_values() {
     fi
 }
 
-export -f has_numeric_values
+# export -f not needed in zsh —has_numeric_values

@@ -99,8 +99,8 @@ function repl_mimic() {
   repl_func "mimic(\"$1\")"
 }
 
-export -f m
-export -f M
+# export -f not needed in zsh —m
+# export -f not needed in zsh —M
 
 function mimic_arg_loop_nums_to_words() {
   echo "begin $@"

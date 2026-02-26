@@ -3,10 +3,15 @@ alias ga='git add'
 alias gaa='  git add --all; git --no-pager status --short'
 alias gb='   git branch'
 alias gc='   f() { git commit -m "$*"; };f'
+alias gcnv=' gc --no-verify'
+alias gcanv=' gc --amend --no-verify'
+alias gcanvne=' gc --amend --no-verify'
 alias gca='  git commit --amend -C HEAD'
+alias gcae='  git commit --amend'
 alias gcam=' f() { git commit --amend -m "$*"; };f'
 alias gcp='  f() { git cherry-pick --no-commit $@; git --no-pager status --short; };f'
-alias gd='   git difftool --gui; echo "--diff complete."'
+unalias gd 2>/dev/null
+gd() { git difftool --gui "$@"; echo "--diff complete."; }
 alias gdd='f() { git difftool --gui "$@"; echo "--diff complete."; }; f'
 alias 'gd --staged'='echo "Reminder: Use gds instead"; git difftool --staged --gui'
 alias gds='  git difftool --staged --gui'
@@ -19,17 +24,18 @@ alias gl='   git log --pretty=summary --use-mailmap'
 alias gla='  git log --pretty=all     --use-mailmap --source --all'
 alias gln='  git log --pretty=summary --name-status -n 5'
 alias glf='  git --no-pager log --follow --oneline -- '
-alias go='   git checkout'
+alias GO='   git checkout'
 alias gpop=' git stash pop'
 alias gpush='git stash push'
 alias gpls=' git --no-pager stash list'
-alias gs='   git status --short; echo; git --no-pager log --pretty=summary -n 3'
+alias gs=' f() { local n=${1:-3}; git status --short; echo; git --no-pager log --pretty=summary -n $n; };f'
+alias gsclip='git status --porcelain | clip'
 alias gsls=' git status --porcelain | /usr/bin/cut -c4-'
-alias gh='   git show'
+# alias gh='   git show' # removing due to conflicts with gh cli
 alias ghn='  git --no-pager show --name-status'
 alias gri='  git rebase --interactive'
 alias gra='  git rebase --abort'
-alias grc='  git rebase --continue'
+alias gr-c='  git rebase --continue'
 alias gr-d=' git fetch --prune && git rebase origin/dev'
 alias gop='  git push origin -u'
 alias gol='  git pull --ff-only'
@@ -86,3 +92,6 @@ rebase() {
     echo -e "${YELLOW}You can now run 'git stash pop' to retun stashed values${NC}"
   fi
 }
+
+# requires github CLI and proper setup
+alias ghprme=' gh pr list --search "@trillium" '

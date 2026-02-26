@@ -6,9 +6,9 @@ declare -A penguin_builds=()
 _penguin_builds_conf="$HOME/.openclaw/builds.conf"
 # Load builds from config file
 if [[ -f "$_penguin_builds_conf" ]]; then
-  while IFS='=' read -r name path; do
+  while IFS='=' read -r name build_path; do
     [[ -z "$name" || "$name" == \#* ]] && continue
-    penguin_builds[$name]="$path"
+    penguin_builds[$name]="$build_path"
   done < "$_penguin_builds_conf"
 fi
 _penguin_save_builds() {

@@ -29,5 +29,5 @@ function do_replace() {
   # echo "did a rename from .js to .jsx"
 }
 
-export -f do_replace
-export -f do_find
+# export -f not needed in zsh —do_replace
+# export -f not needed in zsh —do_find

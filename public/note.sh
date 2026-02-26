@@ -1,0 +1,1 @@
+/Users/trilliumsmith/code/note/bin/note_wrapper.sh

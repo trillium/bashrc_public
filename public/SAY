@@ -1,0 +1,64 @@
+#!/bin/bash
+# SAY: Wrapper for macOS 'say' command
+
+# Kill all running 'say' processes if requested
+if [[ "$1" == "--kill-all" ]]; then
+  pkill -x say
+  exit 0
+fi
+
+VOICE="Samantha"
+RATE="190"
+PROFILE="existing"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --voice)
+      VOICE="$2"
+      shift 2
+      ;;
+    --rate)
+      RATE="$2"
+      shift 2
+      ;;
+    --profile)
+      PROFILE="$2"
+      shift 2
+      ;;
+    --fast)
+      RATE="300"
+      shift
+      ;;
+    *)
+      TEXT="$1"
+      shift
+      ;;
+  esac
+done
+
+# Set voice/rate based on profile
+case "$PROFILE" in
+  existing)
+    # VOICE and RATE already set
+    ;;
+  # Future profiles can be added here
+  *)
+    # Unknown profile, fallback to existing
+    ;;
+esac
+
+if [ -z "$TEXT" ]; then
+  # List all available voices and their language codes
+  say -v "?" | awk '{printf "Voice: %-20s Language: %s\n", $1, $2}'
+
+  # Example: Say a message in every available en_US English voice
+  say -v "?" | awk '$2 == "en_US" {print $1, $2, $3}' | while read -r VOICE LANG TITLE; do
+    MESSAGE="$VOICE: $TITLE."
+    echo "Voice: $VOICE ($TITLE)"
+    say -v "$VOICE" -r "$RATE" "$MESSAGE"
+  done
+  exit 0
+fi
+
+# Speak the provided text with the selected voice/rate
+say -v "$VOICE" -r "$RATE" "$TEXT"

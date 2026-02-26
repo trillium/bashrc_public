@@ -22,6 +22,11 @@ Commands:
       Get details for the specified story ID from prd.json.
       Example: ralph.sh get-details story-18
 
+  get-attempts <story-id>
+      Get list of previous attempt file paths for the specified story ID.
+      Returns one file path per line, or empty output if no attempts.
+      Example: ralph.sh get-attempts story-18
+
   mark-complete <story-id>
       Mark the specified story as complete (sets passes=true in prd.json).
       Example: ralph.sh mark-complete story-18
@@ -102,6 +107,14 @@ case "$COMMAND" in
       exit 1
     fi
     (cd "$WORK_DIR" && "$SCRIPT_DIR/bin/get-story-details.sh" "$@")
+    ;;
+  get-attempts)
+    if [ $# -lt 1 ]; then
+      echo "Error: story-id required for get-attempts."
+      show_help
+      exit 1
+    fi
+    (cd "$WORK_DIR" && "$SCRIPT_DIR/bin/get-attempts.sh" "$@")
     ;;
   mark-complete)
     if [ $# -lt 1 ]; then

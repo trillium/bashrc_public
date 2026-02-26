@@ -1,0 +1,269 @@
+=== Shell Usage Audit (all-time) ===
+    Date: 2026-02-03
+    History entries:    16646
+
+
+--- alias_general.sh — General aliases ---
+  COMMAND                   USES
+  py                        73
+  reload                    3
+  pbclip                    0
+  copy                      0
+  clip                      3
+  clip.get                  0
+  clip.set                  0
+  paste                     0
+  yarm                      2
+  ydev                      4
+  pnpmd                     0
+  pdev                      11
+  pd                        0
+  ptest                     5
+  pt                        1
+  pbuild                    1
+  pb                        6
+  ya                        8
+  cdcode                    4
+  rcode                     4
+  ask                       3
+  brun                      7
+  bdev                      2
+  btest                     1
+  bbuild                    0
+
+--- alias_git.sh — Git aliases ---
+  COMMAND                   USES
+  ga                        1050
+  gaa                       0
+  gb                        0
+  gc                        0
+  gcnv                      0
+  gcanv                     0
+  gcanvne                   0
+  gca                       0
+  gcae                      0
+  gcam                      0
+  gcp                       0
+  gdd                       0
+  gds                       0
+  gdn                       0
+  gm                        0
+  gl                        0
+  gla                       0
+  gln                       0
+  glf                       0
+  GO                        0
+  gpop                      0
+  gpush                     0
+  gpls                      0
+  gs                        3
+  gsclip                    1
+  gsls                      0
+  ghn                       0
+  gri                       0
+  gra                       0
+  gr-c                      0
+  gr-d                      0
+  gop                       0
+  gol                       0
+  gof                       0
+  clean                     0
+  gyolo                     1
+  ghprme                    1
+  gitpru                    0
+  rebase                    1
+  gd                        5
+
+--- cd.sh — Navigation ---
+  COMMAND                   USES
+  dc                        0
+  (.. / ... / .... / ..... are not trackable in history)
+
+--- Custom functions — Entry points ---
+  COMMAND                   USES
+  edit                      4       edit.sh
+  do_find                   0       find_and_replace.sh
+  do_replace                0       find_and_replace.sh
+  forever                   4       forever.sh
+  gclone                    9       gclone.sh
+  KILL                      9       kill_port.sh
+  note                      2       note.sh
+  ralph                     2       ralph.sh
+  terminal                  8       terminal.sh
+  bgterminal                0       terminal.sh
+  penguin                   3       penguin/penguin.sh
+
+--- Custom functions — Talon voice control ---
+  COMMAND                   USES
+  m                         422     entry point → get_state, mimic_arg_loop
+  M                         304     entry point → get_state, repl_mimic, repl_func, mimic_arg_loop
+  nm                        0       entry point → get_state, mimic_arg_loop_nums_to_words
+  NM                        0       entry point → get_state, repl_mimic, repl_func, mimic_arg_loop_nums_to_words
+  (internal helpers: get_state, repl_func, repl_mimic, mimic_arg_loop — usage inherited from above)
+
+--- Custom functions — num_to_word.sh (dependency of nm/NM) ---
+  COMMAND                   USES
+  num_to_word               0       called by mimic_arg_loop_nums_to_words
+  has_numeric_values        0       called by mimic_arg_loop_nums_to_words
+  n                         0       alias for num_to_word
+
+--- Custom functions — Caddy local domains ---
+  COMMAND                   USES
+  caddy-add                 0
+  caddy-list                1
+  caddy-remove              0
+  caddy-edit                1
+  caddy-reload              1
+  caddy-status              1       calls caddy-list internally
+
+--- Custom functions — Codewars (private) ---
+  COMMAND                   USES
+  codewars                  2
+  get_date                  0       called by standard__ alias
+  get_last_codewars         0       called by standard__ alias
+  standard__                0
+  is_staged                 0
+  print_line                0
+  first_line                0
+
+--- Misc ---
+  COMMAND                   USES
+  codetalon                 0       private/path.sh alias
+  we_did_it_wooooo          1       ~/.zshrc alias
+
+=== Done ===
+Re-run with --recent 1000 to see only recent usage.
+=== Shell Usage Audit (last 1000 history entries) ===
+    Date: 2026-02-03
+
+
+--- alias_general.sh — General aliases ---
+  COMMAND                   USES
+  py                        0
+  reload                    2
+  pbclip                    0
+  copy                      0
+  clip                      0
+  clip.get                  0
+  clip.set                  0
+  paste                     0
+  yarm                      0
+  ydev                      1
+  pnpmd                     0
+  pdev                      1
+  pd                        0
+  ptest                     1
+  pt                        0
+  pbuild                    0
+  pb                        1
+  ya                        0
+  cdcode                    4
+  rcode                     0
+  ask                       0
+  brun                      7
+  bdev                      2
+  btest                     1
+  bbuild                    0
+
+--- alias_git.sh — Git aliases ---
+  COMMAND                   USES
+  ga                        59
+  gaa                       0
+  gb                        0
+  gc                        0
+  gcnv                      0
+  gcanv                     0
+  gcanvne                   0
+  gca                       0
+  gcae                      0
+  gcam                      0
+  gcp                       0
+  gdd                       0
+  gds                       0
+  gdn                       0
+  gm                        0
+  gl                        0
+  gla                       0
+  gln                       0
+  glf                       0
+  GO                        0
+  gpop                      0
+  gpush                     0
+  gpls                      0
+  gs                        1
+  gsclip                    0
+  gsls                      0
+  ghn                       0
+  gri                       0
+  gra                       0
+  gr-c                      0
+  gr-d                      0
+  gop                       0
+  gol                       0
+  gof                       0
+  clean                     0
+  gyolo                     0
+  ghprme                    0
+  gitpru                    0
+  rebase                    0
+  gd                        5
+
+--- cd.sh — Navigation ---
+  COMMAND                   USES
+  dc                        0
+  (.. / ... / .... / ..... are not trackable in history)
+
+--- Custom functions — Entry points ---
+  COMMAND                   USES
+  edit                      4       edit.sh
+  do_find                   0       find_and_replace.sh
+  do_replace                0       find_and_replace.sh
+  forever                   4       forever.sh
+  gclone                    9       gclone.sh
+  KILL                      7       kill_port.sh
+  note                      2       note.sh
+  ralph                     2       ralph.sh
+  terminal                  2       terminal.sh
+  bgterminal                0       terminal.sh
+  penguin                   3       penguin/penguin.sh
+
+--- Custom functions — Talon voice control ---
+  COMMAND                   USES
+  m                         33      entry point → get_state, mimic_arg_loop
+  M                         0       entry point → get_state, repl_mimic, repl_func, mimic_arg_loop
+  nm                        0       entry point → get_state, mimic_arg_loop_nums_to_words
+  NM                        0       entry point → get_state, repl_mimic, repl_func, mimic_arg_loop_nums_to_words
+  (internal helpers: get_state, repl_func, repl_mimic, mimic_arg_loop — usage inherited from above)
+
+--- Custom functions — num_to_word.sh (dependency of nm/NM) ---
+  COMMAND                   USES
+  num_to_word               0       called by mimic_arg_loop_nums_to_words
+  has_numeric_values        0       called by mimic_arg_loop_nums_to_words
+  n                         0       alias for num_to_word
+
+--- Custom functions — Caddy local domains ---
+  COMMAND                   USES
+  caddy-add                 0
+  caddy-list                0
+  caddy-remove              0
+  caddy-edit                0
+  caddy-reload              0
+  caddy-status              0       calls caddy-list internally
+
+--- Custom functions — Codewars (private) ---
+  COMMAND                   USES
+  codewars                  0
+  get_date                  0       called by standard__ alias
+  get_last_codewars         0       called by standard__ alias
+  standard__                0
+  is_staged                 0
+  print_line                0
+  first_line                0
+
+--- Misc ---
+  COMMAND                   USES
+  codetalon                 0       private/path.sh alias
+  we_did_it_wooooo          1       ~/.zshrc alias
+
+=== Done ===
+Re-run with --recent 1000 to see only recent usage.

@@ -1,1 +1,11 @@
 /private
+# Backups and cruft
+.zshrc-corrupted
+.zshrc.backup-*
+nohup.out
+temp.md
+rcode
+# rcode output files
+rcode_*.md
+# Agent context
+.claude/

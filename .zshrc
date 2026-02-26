@@ -135,3 +135,4 @@ source ~/bashrc_dir/public/num_to_word.sh
 source ~/bashrc_dir/public/ralph.sh
 source ~/bashrc_dir/public/talon_mimic.sh
 source ~/bashrc_dir/public/terminal.sh
+source ~/bashrc_dir/public/clip_error.sh
